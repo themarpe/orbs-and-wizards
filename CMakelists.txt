@@ -1,0 +1,96 @@
+# Adapted to CMake build system 17/11/2022
+cmake_minimum_required(VERSION 3.21)
+
+set(TARGET_NAME OrbsAndWizards)
+project(${TARGET_NAME} C CXX)
+
+# Append cmake directory to module path
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/")
+
+# Add external dependencies
+add_subdirectory(external/SDL)
+add_subdirectory(external/SDL_ttf)
+add_subdirectory(external/SDL_image)
+
+add_executable(${TARGET_NAME}
+    src/Engine/Camera.cpp
+    src/Engine/Camera.h
+    src/Engine/Enums.h
+    src/Engine/Game.cpp
+    src/Engine/Game.h
+    src/Engine/GameEngine.cpp
+    src/Engine/GameEngine.h
+    src/Engine/Image.cpp
+    src/Engine/Image.h
+    src/Engine/Level.cpp
+    src/Engine/Level.h
+    src/Engine/LevelCreator.cpp
+    src/Engine/LevelCreator.h
+    src/Engine/SpriteSheet.cpp
+    src/Engine/SpriteSheet.h
+    src/Engine/States/GameOverState.cpp
+    src/Engine/States/GameOverState.h
+    src/Engine/States/GameState.cpp
+    src/Engine/States/GameState.h
+    src/Engine/States/GameWonState.cpp
+    src/Engine/States/GameWonState.h
+    src/Engine/States/LevelCreatorSelector.cpp
+    src/Engine/States/LevelCreatorSelector.h
+    src/Engine/States/LevelCreatorState.cpp
+    src/Engine/States/LevelCreatorState.h
+    src/Engine/States/MainMenuState.cpp
+    src/Engine/States/MainMenuState.h
+    src/Engine/States/PauseState.cpp
+    src/Engine/States/PauseState.h
+    src/Engine/States/State.h
+    src/Engine/UI.cpp
+    src/Engine/UI.h
+    src/Engine/Vector2D.cpp
+    src/Engine/Vector2D.h
+    src/Engine/tinyxml2.cpp
+    src/Engine/tinyxml2.h
+    src/Objects/Block.cpp
+    src/Objects/Block.h
+    src/Objects/Door.cpp
+    src/Objects/Door.h
+    src/Objects/Entity.cpp
+    src/Objects/Entity.h
+    src/Objects/HittableEnemy.cpp
+    src/Objects/HittableEnemy.h
+    src/Objects/Orb.cpp
+    src/Objects/Orb.h
+    src/Objects/Player.cpp
+    src/Objects/Player.h
+    src/Objects/Potion.cpp
+    src/Objects/Potion.h
+    src/Objects/Rune.cpp
+    src/Objects/Rune.h
+    src/Objects/RuneKey.cpp
+    src/Objects/RuneKey.h
+    src/Objects/Skeleton.cpp
+    src/Objects/Skeleton.h
+    src/Objects/SparkleAnimation.cpp
+    src/Objects/SparkleAnimation.h
+    src/Objects/Turret.cpp
+    src/Objects/Turret.h
+    src/main.cpp
+)
+
+set(header_dirs src/Engine src/Engine/States src/Objects)
+
+target_include_directories(${TARGET_NAME} PRIVATE ${header_dirs})
+
+include(ClangFormat)
+target_clangformat_setup(${TARGET_NAME} "${header_dirs}")
+
+target_link_libraries(OrbsAndWizards PRIVATE SDL2 SDL2_ttf SDL2_image SDL2main)
+
+# Copy over required DLLs (Windows)
+if(WIN32)
+    # Copy dlls to target directory - Windows only
+    # TARGET_RUNTIME_DLLS generator expression available since CMake 3.21
+    add_custom_command(TARGET ${TARGET_NAME} POST_BUILD COMMAND
+        ${CMAKE_COMMAND} -E copy_if_different $<TARGET_RUNTIME_DLLS:${TARGET_NAME}> $<TARGET_FILE_DIR:${TARGET_NAME}>
+        COMMAND_EXPAND_LISTS
+    )
+endif()
