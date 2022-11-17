@@ -43,3 +43,19 @@ cmake --build build --config Release --target install
 ```
 
 Resulting game can be found in `build/install/OrbsAndWizards` folder
+
+### Manylinux
+
+To build for many linux platforms, use the following command:
+
+```
+docker run -it --rm -v $PWD:/work -w /work quay.io/pypa/manylinux2014_x86_64 bash
+# In container - install freetype dependency
+yum -y install freetype*
+cmake -S . -B build_manylinux2014 -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=$PWD/build_manylinux2014/install
+cmake --build build_manylinux2014/ --config Release --target install
+# Modify files back to "default" user
+chown 1000:1000 -R build_manylinux2014/
+# Exit the container
+exit
+```

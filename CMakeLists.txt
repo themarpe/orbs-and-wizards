@@ -4,6 +4,9 @@ cmake_minimum_required(VERSION 3.21)
 set(TARGET_NAME OrbsAndWizards)
 project(${TARGET_NAME} C CXX)
 
+# Specify that shared libs aren't built by default
+option(BUILD_SHARED_LIBS "Build dependencies as a shared libraries" OFF)
+
 # Append cmake directory to module path
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/")
 
@@ -90,7 +93,10 @@ include(ClangFormat)
 target_clangformat_setup(${TARGET_NAME} "${header_dirs}")
 
 # Link to libraries
-target_link_libraries(OrbsAndWizards PRIVATE SDL2 SDL2_ttf SDL2_image SDL2main tinyfiledialogs rapidjson)
+target_link_libraries(OrbsAndWizards PRIVATE SDL2-static SDL2_ttf SDL2_image SDL2main tinyfiledialogs rapidjson)
+
+# Set rpath
+set_target_properties(${TARGET_NAME} PROPERTIES INSTALL_RPATH "\${ORIGIN}")
 
 # Copy over required DLLs (Windows)
 if(WIN32)
@@ -100,12 +106,13 @@ if(WIN32)
     )
 endif()
 
-# Installs executable and dependencies
+# Installs executable and dependencies (except system ones)
 install(TARGETS ${TARGET_NAME}
     RUNTIME_DEPENDENCIES
-        PRE_EXCLUDE_REGEXES "api-ms-" "ext-ms-"
+        PRE_EXCLUDE_REGEXES "api-ms-" "ext-ms-" "ld-linux" "libz" "libc" "libpthread" "libgcc" "libm" "libstdc\\+\\+" "librt" "libdl"
         POST_EXCLUDE_REGEXES ".*system32/.*\\.dll"
     RUNTIME DESTINATION ${TARGET_NAME}
+    LIBRARY DESTINATION ${TARGET_NAME}
 )
 # Installs resources and assets
-install(DIRECTORY res Assets CustomLevels Levels DESTINATION ${TARGET_NAME})
+install(DIRECTORY res Assets Levels CustomLevels Replays DESTINATION ${TARGET_NAME})
