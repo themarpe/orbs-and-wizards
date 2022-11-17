@@ -11,7 +11,7 @@ void GameEngine::init() {
     screenWidth = 800;
     screenHeight = 640;
 
-    window = SDL_CreateWindow("ORBS AND WIZARDS", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screenWidth, screenHeight, NULL);
+    window = SDL_CreateWindow("ORBS AND WIZARDS", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screenWidth, screenHeight, 0);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if(renderer == NULL || window == NULL) {
         std::cout << "fatal error, exiting\n";

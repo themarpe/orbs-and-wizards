@@ -21,14 +21,11 @@ Level::Level(Game* game, std::string levelPath) {
     game_p = game;
     // INITS
 
-    char p[256];
-    GetCurrentDirectoryA(256, p);
-    std::cout << "\n\n\n\nGOING TO OPEN FILE : " << levelPath << "\n\n" << p << "\n\n";
     FILE* fp = fopen(levelPath.c_str(), "rb");  // non-Windows use "r"
     char readBuffer[65536];
 
     if(!fp) {
-        std::cout << "ALOT BIG ARERRORO \n\n";
+        std::cout << "Invalid file selected\n";
     }
 
     FileReadStream is(fp, readBuffer, sizeof(readBuffer));
@@ -37,7 +34,7 @@ Level::Level(Game* game, std::string levelPath) {
     fclose(fp);
 
     if(!result) {
-        printf("JSON parse error: %s (%u)", GetParseError_En(result.Code()), result.Offset());
+        printf("JSON parse error: %s (%zu)", GetParseError_En(result.Code()), result.Offset());
     }
 
     levelName = d["levelName"].GetString();

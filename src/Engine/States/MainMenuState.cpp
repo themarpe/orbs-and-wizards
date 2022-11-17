@@ -4,6 +4,8 @@
 #include <States/GameState.h>
 #include <States/LevelCreatorState.h>
 
+#include "tinyfiledialogs.h"
+
 void MainMenuState::init(GameEngine* gameEngine) {
     renderer = gameEngine->renderer;
 
@@ -56,62 +58,31 @@ void MainMenuState::handleInput(GameEngine* gameEngine) {
 
                     } else if(pointerPos == 1) {
                         // WATCH REPLAY
-                        TCHAR NPath[MAX_PATH];
-                        GetCurrentDirectory(MAX_PATH, NPath);
-                        std::string customLevelDir(NPath);
+                        char const* filterPatterns[2] = {"*.oawr", "*.*"};
+                        char const* theOpenFilename =
+                            tinyfd_openFileDialog("Select replay file to watch", "./Replays/*", 2, filterPatterns, "replay .oawr files", 0);
 
-                        std::cout << "\n current dir = " << customLevelDir << "\n";
-                        char filename[MAX_PATH];
-
-                        OPENFILENAME ofn;
-                        ZeroMemory(&filename, sizeof(filename));
-                        ZeroMemory(&ofn, sizeof(ofn));
-                        ofn.lStructSize = sizeof(ofn);
-                        ofn.hwndOwner = NULL;  // If you have a window to center over, put its HANDLE here
-                        ofn.lpstrFilter = "Replay files\0*.oawr\0Any File\0*.*\0";
-                        ofn.lpstrFile = filename;
-                        ofn.nMaxFile = MAX_PATH;
-                        ofn.lpstrTitle = "Select the custom level";
-                        ofn.Flags = 0x02000000 | 0x00001000;
-
-                        if(GetOpenFileName(&ofn)) {
-                            SetCurrentDirectoryA(NPath);
-                            std::string replayPath(filename);
-                            std::cout << "\n\nSELECTED = " << replayPath << "\n\n";
-                            gameEngine->setReplayPath(replayPath);
+                        if(theOpenFilename) {
+                            gameEngine->setReplayPath(theOpenFilename);
                             gameEngine->setLevelType(GameEngine::LevelType::REPLAY);
                             gameEngine->changeState(GameState::getInstance());
+                        } else {
+                            tinyfd_messageBox("Error", "No Replay file selected", "ok", "error", 1);
                         }
 
                     } else if(pointerPos == 2) {
                         // PlayLevel state
-                        TCHAR NPath[MAX_PATH];
-                        GetCurrentDirectory(MAX_PATH, NPath);
-                        std::string customLevelDir(NPath);
-                        customLevelDir += "/CustomLevels";
-                        std::cout << "\n custom dir = " << customLevelDir << "\n";
-                        char filename[MAX_PATH];
+                        char const* filterPatterns[2] = {"*.lvl", "*.*"};
+                        char const* theOpenFilename =
+                            tinyfd_openFileDialog("Select the custom level", "./Custom Levels/*", 2, filterPatterns, "level .lvl files", 0);
 
-                        OPENFILENAME ofn;
-                        ZeroMemory(&filename, sizeof(filename));
-                        ZeroMemory(&ofn, sizeof(ofn));
-                        ofn.lStructSize = sizeof(ofn);
-                        ofn.hwndOwner = NULL;  // If you have a window to center over, put its HANDLE here
-                        ofn.lpstrFilter = "Level files\0*.lvl\0Any File\0*.*\0";
-                        ofn.lpstrFile = filename;
-                        ofn.nMaxFile = MAX_PATH;
-                        ofn.lpstrTitle = "Select the custom level";
-                        ofn.Flags = 0x02000000 | 0x00001000;
-                        ofn.lpstrInitialDir = "C:/";
-
-                        if(GetOpenFileName(&ofn)) {
-                            SetCurrentDirectory(NPath);
+                        if(theOpenFilename) {
                             gameEngine->setLevelType(GameEngine::LevelType::CUSTOM);
-                            std::string levelPath(filename);
-                            std::cout << "\n\nSELECTED = " << levelPath << "\n\n";
-                            gameEngine->setLevelPath(levelPath);
+                            gameEngine->setLevelPath(theOpenFilename);
                             gameEngine->setCurrentLevel(0);
                             gameEngine->changeState(GameState::getInstance());
+                        } else {
+                            tinyfd_messageBox("Error", "No custom level selected", "ok", "error", 1);
                         }
 
                     } else if(pointerPos == 3) {

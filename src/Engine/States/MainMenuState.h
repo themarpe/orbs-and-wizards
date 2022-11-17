@@ -3,7 +3,6 @@
 #include <LevelCreatorSelector.h>
 #include <SDL.h>
 #include <State.h>
-#include <windows.h>
 
 class MainMenuState : public State {
    public:

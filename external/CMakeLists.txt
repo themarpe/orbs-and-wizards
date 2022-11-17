@@ -1,0 +1,5 @@
+add_subdirectory(SDL)
+add_subdirectory(SDL_image)
+add_subdirectory(SDL_ttf)
+add_subdirectory(tinyfiledialogs)
+add_subdirectory(rapidjson)

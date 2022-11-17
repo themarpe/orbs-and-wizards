@@ -35,11 +35,16 @@ class LevelCreator {
     void exportLevel(std::string, std::string);
 
     void setLevelData(int data, int x, int y) {
-        if(x >= 0 && x < levelWidth && y >= 0 && y < levelHeight) levelData[y][x] = data;
+        if(x >= 0 && x < levelWidth && y >= 0 && y < levelHeight) {
+            levelData[y][x] = data;
+        }
     }
 
     int getLevelData(int x, int y) {
-        if(x >= 0 && x < levelWidth && y >= 0 && y < levelHeight) return levelData[y][x];
+        if(x >= 0 && x < levelWidth && y >= 0 && y < levelHeight) {
+            return levelData[y][x];
+        }
+        return -1;
     }
 
     int getTileSize() {

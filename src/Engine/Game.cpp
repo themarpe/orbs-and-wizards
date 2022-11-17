@@ -305,77 +305,79 @@ void Game::handleInput() {
         if(tmpReplayStruct.inputCommands.size() > 0) replayCache.push(tmpReplayStruct);
 
     } else if(typeOfGame == TypeOfGame::REPLAY) {
-        ReplayStruct frontReplayStruct = replayCache.front();
-        if(frameCounter >= frontReplayStruct.frameNumber) {
-            for(InputCommands inputCommand : frontReplayStruct.inputCommands) {
-                switch(inputCommand) {
-                    case InputCommands::SDLK_a_DOWN:
-                        p1->keys[(int)Player::Keys::LEFT] = true;
-                        break;
-                    case InputCommands::SDLK_d_DOWN:
-                        p1->keys[(int)Player::Keys::RIGHT] = true;
-                        break;
-                    case InputCommands::SDLK_w_DOWN:
-                        p1->keys[(int)Player::Keys::UP] = true;
-                        break;
-                    case InputCommands::SDLK_SPACE_DOWN:
-                        p1->keys[(int)Player::Keys::SPACE] = true;
-                        break;
-                    case InputCommands::SDLK_1_DOWN:
-                        p1->keys[(int)Player::Keys::NUM1] = true;
-                        break;
-                    case InputCommands::SDLK_2_DOWN:
-                        p1->keys[(int)Player::Keys::NUM2] = true;
-                        break;
-                    case InputCommands::SDLK_3_DOWN:
-                        p1->keys[(int)Player::Keys::NUM3] = true;
-                        break;
-                    case InputCommands::SDLK_q_DOWN:
-                        p1->keys[(int)Player::Keys::Q] = true;
-                        break;
-                    case InputCommands::SDLK_e_DOWN:
-                        p1->keys[(int)Player::Keys::E] = true;
-                        break;
+        if(replayCache.size() > 0) {
+            ReplayStruct frontReplayStruct = replayCache.front();
+            if(frameCounter >= frontReplayStruct.frameNumber) {
+                for(InputCommands inputCommand : frontReplayStruct.inputCommands) {
+                    switch(inputCommand) {
+                        case InputCommands::SDLK_a_DOWN:
+                            p1->keys[(int)Player::Keys::LEFT] = true;
+                            break;
+                        case InputCommands::SDLK_d_DOWN:
+                            p1->keys[(int)Player::Keys::RIGHT] = true;
+                            break;
+                        case InputCommands::SDLK_w_DOWN:
+                            p1->keys[(int)Player::Keys::UP] = true;
+                            break;
+                        case InputCommands::SDLK_SPACE_DOWN:
+                            p1->keys[(int)Player::Keys::SPACE] = true;
+                            break;
+                        case InputCommands::SDLK_1_DOWN:
+                            p1->keys[(int)Player::Keys::NUM1] = true;
+                            break;
+                        case InputCommands::SDLK_2_DOWN:
+                            p1->keys[(int)Player::Keys::NUM2] = true;
+                            break;
+                        case InputCommands::SDLK_3_DOWN:
+                            p1->keys[(int)Player::Keys::NUM3] = true;
+                            break;
+                        case InputCommands::SDLK_q_DOWN:
+                            p1->keys[(int)Player::Keys::Q] = true;
+                            break;
+                        case InputCommands::SDLK_e_DOWN:
+                            p1->keys[(int)Player::Keys::E] = true;
+                            break;
 
-                    case InputCommands::SDLK_a_UP:
-                        p1->keys[(int)Player::Keys::LEFT] = false;
-                        break;
-                    case InputCommands::SDLK_d_UP:
-                        p1->keys[(int)Player::Keys::RIGHT] = false;
-                        break;
-                    case InputCommands::SDLK_w_UP:
-                        p1->keys[(int)Player::Keys::UP] = false;
-                        break;
-                    case InputCommands::SDLK_SPACE_UP:
-                        p1->keys[(int)Player::Keys::SPACE] = false;
-                        break;
-                    case InputCommands::SDLK_1_UP:
-                        p1->keys[(int)Player::Keys::NUM1] = false;
-                        break;
-                    case InputCommands::SDLK_2_UP:
-                        p1->keys[(int)Player::Keys::NUM2] = false;
-                        break;
-                    case InputCommands::SDLK_3_UP:
-                        p1->keys[(int)Player::Keys::NUM3] = false;
-                        break;
-                    case InputCommands::SDLK_q_UP:
-                        p1->keys[(int)Player::Keys::Q] = false;
-                        break;
-                    case InputCommands::SDLK_e_UP:
-                        p1->keys[(int)Player::Keys::E] = false;
-                        break;
+                        case InputCommands::SDLK_a_UP:
+                            p1->keys[(int)Player::Keys::LEFT] = false;
+                            break;
+                        case InputCommands::SDLK_d_UP:
+                            p1->keys[(int)Player::Keys::RIGHT] = false;
+                            break;
+                        case InputCommands::SDLK_w_UP:
+                            p1->keys[(int)Player::Keys::UP] = false;
+                            break;
+                        case InputCommands::SDLK_SPACE_UP:
+                            p1->keys[(int)Player::Keys::SPACE] = false;
+                            break;
+                        case InputCommands::SDLK_1_UP:
+                            p1->keys[(int)Player::Keys::NUM1] = false;
+                            break;
+                        case InputCommands::SDLK_2_UP:
+                            p1->keys[(int)Player::Keys::NUM2] = false;
+                            break;
+                        case InputCommands::SDLK_3_UP:
+                            p1->keys[(int)Player::Keys::NUM3] = false;
+                            break;
+                        case InputCommands::SDLK_q_UP:
+                            p1->keys[(int)Player::Keys::Q] = false;
+                            break;
+                        case InputCommands::SDLK_e_UP:
+                            p1->keys[(int)Player::Keys::E] = false;
+                            break;
 
-                    case InputCommands::SDLK_ESCAPE_UP:
-                        gameEngine->pushState(PauseState::getInstance());
-                        break;
+                        case InputCommands::SDLK_ESCAPE_UP:
+                            gameEngine->pushState(PauseState::getInstance());
+                            break;
 
-                    case InputCommands::SDLK_k_UP:
-                        nextLevel();
-                        break;
+                        case InputCommands::SDLK_k_UP:
+                            nextLevel();
+                            break;
+                    }
                 }
-            }
 
-            replayCache.pop();
+                replayCache.pop();
+            }
         }
     }
 
