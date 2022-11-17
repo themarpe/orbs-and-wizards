@@ -12,7 +12,11 @@ add_subdirectory(external/SDL)
 add_subdirectory(external/SDL_ttf)
 add_subdirectory(external/SDL_image)
 
-add_executable(${TARGET_NAME}
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+    set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "Installation Directory" FORCE)
+endif()
+
+add_executable(${TARGET_NAME} WIN32
     src/Engine/Camera.cpp
     src/Engine/Camera.h
     src/Engine/Enums.h
@@ -94,3 +98,13 @@ if(WIN32)
         COMMAND_EXPAND_LISTS
     )
 endif()
+
+# Installs executable and dependencies
+install(TARGETS ${TARGET_NAME}
+    RUNTIME_DEPENDENCIES
+        PRE_EXCLUDE_REGEXES "api-ms-" "ext-ms-"
+        POST_EXCLUDE_REGEXES ".*system32/.*\\.dll"
+    RUNTIME DESTINATION ${TARGET_NAME}
+)
+# Installs resources and assets
+install(DIRECTORY res Assets CustomLevels Levels DESTINATION ${TARGET_NAME})
