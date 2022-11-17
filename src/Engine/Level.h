@@ -1,48 +1,45 @@
-#pragma once //HEADERGUARD
+#pragma once  // HEADERGUARD
+
+#include <windows.h>
 
 #include <iostream>
 #include <vector>
-#include "SDL.h"
 
-#include <windows.h>
+#include "SDL.h"
 class Camera;
 class Game;
 class Block;
 class SpriteSheet;
 class SpriteRectangle;
 
-class Level
-{
+class Level {
+   public:
+    Level(Game*, std::string);
+    ~Level();
 
-    public:
-        Level(Game*, std::string);
-        ~Level();
+    void update();
+    void render(Camera*);
 
-        void update();
-        void render(Camera*);
+    // std::vector<std::vector<Block*> > levelData;
 
-        //std::vector<std::vector<Block*> > levelData;
+    Block*** levelData;
 
-        Block*** levelData;
+    int getLevelWidth();
+    int getLevelHeight();
+    int getTileSize();
+    std::string getLevelName();
 
-        int getLevelWidth();
-        int getLevelHeight();
-        int getTileSize();
-        std::string getLevelName();
+   protected:
+   private:
+    Game* game_p;
+    std::string levelName;
+    std::string bgName;
 
-    protected:
-    private:
-        Game* game_p;
-        std::string levelName;
-        std::string bgName;
+    SDL_Rect bgRect;
 
-        SDL_Rect bgRect;
+    SDL_Texture* bgTexture;
 
-        SDL_Texture* bgTexture;
-
-        int tileSize;
-        int levelWidth;
-        int levelHeight;
-
+    int tileSize;
+    int levelWidth;
+    int levelHeight;
 };
-

@@ -3,29 +3,28 @@
 
 #include <Entity.h>
 #include <Enums.h>
-#include <Vector2D.h>
 #include <Level.h>
+#include <Vector2D.h>
 
-class Rune : public Entity
-{
-    public:
-        Rune(Game* g, float x, float y, float w, float h, RuneType p);
-        Rune(){};
-        ~Rune();
+class Rune : public Entity {
+   public:
+    Rune(Game* g, float x, float y, float w, float h, RuneType p);
+    Rune(){};
+    ~Rune();
 
-        void checkCollision(Level* level);
-        void checkPlayerCollision();
+    void checkCollision(Level* level);
+    void checkPlayerCollision();
 
-        void update();
-        void render(Camera*);
+    void update();
+    void render(Camera*);
 
-    protected:
-
+   protected:
     RuneType runeType;
     Vector2D dir, accel;
 
     uint32_t timeDropped;
-    private:
+
+   private:
 };
 
-#endif // RUNE_H
+#endif  // RUNE_H

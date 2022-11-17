@@ -1,93 +1,87 @@
 #pragma once
-#include <string.h>
-#include <string>
-#include <Enums.h>
-#include <map>
 #include <Camera.h>
-#include <Entity.h>
-#include <stdio.h>
-
 #include <Door.h>
+#include <Entity.h>
+#include <Enums.h>
 #include <Player.h>
-#include <Rune.h>
 #include <Potion.h>
+#include <Rune.h>
 #include <RuneKey.h>
 #include <Skeleton.h>
-
+#include <stdio.h>
+#include <string.h>
 
 #include <cstdio>
-#include <streambuf>
 #include <fstream>
+#include <map>
+#include <streambuf>
+#include <string>
+
 #include "rapidjson/document.h"
+#include "rapidjson/error/en.h"
 #include "rapidjson/filereadstream.h"
 #include "rapidjson/stringbuffer.h"
 #include "rapidjson/writer.h"
-#include "rapidjson/error/en.h"
 
+class LevelCreator {
+   public:
+    LevelCreator(){};
+    LevelCreator(SDL_Renderer* render, int levelWidth, int levelHeight, int tileSize, std::string bgPath, std::string tsPath);
+    virtual ~LevelCreator();
 
+    void update();
+    void render(Camera* camera);
 
-class LevelCreator
-{
-    public:
-        LevelCreator(){};
-        LevelCreator(SDL_Renderer* render, int levelWidth, int levelHeight, int tileSize, std::string bgPath, std::string tsPath);
-        virtual ~LevelCreator();
+    void exportLevel(std::string, std::string);
 
-        void update();
-        void render(Camera* camera);
+    void setLevelData(int data, int x, int y) {
+        if(x >= 0 && x < levelWidth && y >= 0 && y < levelHeight) levelData[y][x] = data;
+    }
 
-        void exportLevel(std::string, std::string);
+    int getLevelData(int x, int y) {
+        if(x >= 0 && x < levelWidth && y >= 0 && y < levelHeight) return levelData[y][x];
+    }
 
-        void setLevelData(int data, int x, int y){
-            if(x>=0 && x < levelWidth && y >= 0 && y<levelHeight)
-                levelData[y][x] = data;
-        }
+    int getTileSize() {
+        return tileSize;
+    }
 
-        int getLevelData(int x, int y){
-            if(x>=0 && x < levelWidth && y >= 0 && y<levelHeight)
-                return levelData[y][x];
-        }
+    int getLevelWidth() {
+        return levelWidth;
+    }
 
-        int getTileSize(){
-            return tileSize;
-        }
+    int getLevelHeight() {
+        return levelHeight;
+    }
 
-        int getLevelWidth(){
-            return levelWidth;
-        }
+    int getTilesetWidth() {
+        return tileSetW;
+    }
 
-        int getLevelHeight(){
-            return levelHeight;
-        }
+    int getTilesetHeight() {
+        return tileSetH;
+    }
 
-        int getTilesetWidth(){
-            return tileSetW;
-        }
+    SpriteSheet tileset;
 
-        int getTilesetHeight(){
-            return tileSetH;
-        }
+   protected:
+    std::map<Entities, Entity*> entityMap;
 
-        SpriteSheet tileset;
+    std::string backgrounds[6];
 
-    protected:
-        std::map<Entities, Entity*> entityMap;
+    int tileSize;
+    int levelWidth, levelHeight;
+    std::string backgroundPath;
+    std::string tilesetPath;
 
-        std::string backgrounds[6];
+    int** levelData;
 
-        int tileSize;
-        int levelWidth, levelHeight;
-        std::string backgroundPath;
-        std::string tilesetPath;
+    int tileSetW, tileSetH;
 
-        int** levelData;
+    SpriteSheet background;
+    SDL_Rect backgroundRect;
 
-        int tileSetW, tileSetH;
+    SDL_Renderer* renderer;
 
-        SpriteSheet background;
-        SDL_Rect backgroundRect;
-
-        SDL_Renderer* renderer;
-
-    private:
+   private:
 };

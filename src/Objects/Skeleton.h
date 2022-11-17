@@ -1,19 +1,15 @@
 #ifndef SKELETON_H
 #define SKELETON_H
 
-#include <HittableEnemy.h>
-#include <map>
-
-#include <Vector2D.h>
 #include <Enums.h>
-
+#include <HittableEnemy.h>
 #include <Potion.h>
 #include <Rune.h>
-
+#include <RuneKey.h>
+#include <Vector2D.h>
 #include <stdlib.h>
 
-
-#include <RuneKey.h>
+#include <map>
 
 class Camera;
 class Game;
@@ -21,59 +17,56 @@ class Level;
 class SpriteSheet;
 class Player;
 
-class Skeleton : public HittableEnemy
-{
+class Skeleton : public HittableEnemy {
+   public:
+    enum class Stance { STANDING, RUNNING, FALLING, ATTACK, DEAD, SPAWN, HIT, FROZEN };
 
-    public:
-        enum class Stance{STANDING, RUNNING, FALLING, ATTACK, DEAD, SPAWN, HIT, FROZEN};
+    Skeleton(Game* g, std::string key, float x, float y, float w, float h);
+    Skeleton();
+    ~Skeleton();
 
-        Skeleton(Game* g, std::string key, float x, float y, float w, float h);
-        Skeleton();
-        ~Skeleton();
+    void checkCollision(Level* level);
+    void checkPlayerCollision();
 
-        void checkCollision(Level* level);
-        void checkPlayerCollision();
+    bool getHittable();
+    bool getFrezze();
 
-        bool getHittable();
-        bool getFrezze();
+    void frezze(int);
 
-        void frezze(int);
+    void setSpeed(float, float);
 
-        void setSpeed(float, float);
+    void land();
+    void setStance(Stance, Direction);
 
-        void land();
-        void setStance(Stance, Direction);
+    void hit(int damage);
+    void hit(int damage, Direction);
 
-        void hit(int damage);
-        void hit(int damage, Direction);
+    int getHealthPoints();
+    void setHealthPoints(int);
 
-        int getHealthPoints();
-        void setHealthPoints(int);
+    void drop();
 
-        void drop();
+    void update();
+    void render(Camera*);
 
-        void update();
-        void render(Camera*);
+   protected:
+    uint32_t aniSpeed;
 
-    protected:
+    uint32_t time;
 
-        uint32_t aniSpeed;
+    int speed;
 
-        uint32_t time;
+    int frozenDuration;
 
-        int speed;
+    int hitDuration;
 
-        int frozenDuration;
+    Vector2D dir, accel;
+    Stance stance;
+    Direction direction;
 
-        int hitDuration;
+    Direction dirHit;
 
-        Vector2D dir, accel;
-        Stance stance;
-        Direction direction;
-
-        Direction dirHit;
-
-    private:
+   private:
 };
 
-#endif // SKELETON_H
+#endif  // SKELETON_H

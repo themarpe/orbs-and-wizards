@@ -3,9 +3,8 @@
 #include <SDL.h>
 #include <State.h>
 
-class PauseState : public State{
-
-public:
+class PauseState : public State {
+   public:
     void init(GameEngine* gameEngine);
     void destroy();
     void pause();
@@ -14,13 +13,13 @@ public:
     void update(GameEngine* game);
     void render(GameEngine* game);
 
-    static PauseState* getInstance(){
+    static PauseState* getInstance() {
         static PauseState instance;
         return &instance;
     }
 
-protected:
-private:
+   protected:
+   private:
     SDL_Renderer* renderer;
 
     SDL_Texture* pausescreen;
@@ -33,5 +32,4 @@ private:
     PauseState() {}
     PauseState(PauseState const&);
     void operator=(PauseState const&);
-
 };

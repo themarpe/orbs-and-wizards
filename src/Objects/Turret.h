@@ -6,22 +6,20 @@
 class Game;
 class Camera;
 class Player;
-class Turret : public Entity
-{
-    public:
-        Turret(Game* g, std::string key, float x, float y, float w, float h, uint32_t);
-        ~Turret();
+class Turret : public Entity {
+   public:
+    Turret(Game* g, std::string key, float x, float y, float w, float h, uint32_t);
+    ~Turret();
 
-        void update();
-        void render(Camera*);
-        void locatePlayer(Player*);
+    void update();
+    void render(Camera*);
+    void locatePlayer(Player*);
 
-    protected:
-        uint32_t time;
-        uint32_t speed;
+   protected:
+    uint32_t time;
+    uint32_t speed;
 
-
-    private:
+   private:
 };
 
-#endif // TURRET_H
+#endif  // TURRET_H

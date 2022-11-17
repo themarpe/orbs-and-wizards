@@ -1,9 +1,6 @@
 #include "Vector2D.h"
 
-
-
-Vector2D& Vector2D::Rotate(float angle)
-{
+Vector2D& Vector2D::Rotate(float angle) {
     float s = sinf(angle);
     float c = cosf(angle);
 

@@ -2,16 +2,14 @@
 
 #include "../Engine/Game.h"
 
-Entity::Entity(){
+Entity::Entity() {
     currentSprite = 0;
     alive = 1;
 }
 
-Entity::~Entity(){
+Entity::~Entity() {}
 
-}
-
-Entity::Entity(Game* g, std::string key, float x, float y, float w, float h){
+Entity::Entity(Game* g, std::string key, float x, float y, float w, float h) {
     game_p = g;
     spriteSheetKey = key;
     currentSprite = 0;
@@ -33,73 +31,58 @@ Entity::Entity(Game* g, std::string key, float x, float y, float w, float h){
     collisionRect.y = y;
     collisionRect.w = w;
     collisionRect.h = h;
-
 }
 
-void Entity::setX(int x)
-{
+void Entity::setX(int x) {
     this->x = x;
 }
-void Entity::setY(int y)
-{
+void Entity::setY(int y) {
     this->y = y;
 }
 
-void Entity::setW(int w)
-{
+void Entity::setW(int w) {
     this->w = w;
 }
-void Entity::setH(int h)
-{
+void Entity::setH(int h) {
     this->h = h;
 }
 
-int Entity::getX()
-{
+int Entity::getX() {
     return x;
 }
 
-int Entity::getY()
-{
+int Entity::getY() {
     return y;
 }
 
-int Entity::getW()
-{
+int Entity::getW() {
     return w;
 }
 
-int Entity::getH()
-{
+int Entity::getH() {
     return h;
 }
 
-void Entity::setCurrentSprite(int cS)
-{
+void Entity::setCurrentSprite(int cS) {
     currentSprite = cS;
 }
 
-int Entity::getCurrentSprite()
-{
+int Entity::getCurrentSprite() {
     return currentSprite;
 }
 
-void Entity::setAlive(bool a)
-{
+void Entity::setAlive(bool a) {
     alive = a;
 }
 
-bool Entity::getAlive()
-{
+bool Entity::getAlive() {
     return alive;
 }
 
-SDL_Rect* Entity::getRenderRect(){
+SDL_Rect* Entity::getRenderRect() {
     return &renderRect;
 }
 
-SDL_Rect* Entity::getCollisionRect(){
+SDL_Rect* Entity::getCollisionRect() {
     return &collisionRect;
 }
-
-

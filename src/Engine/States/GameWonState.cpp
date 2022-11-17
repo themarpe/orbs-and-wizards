@@ -4,8 +4,7 @@
 #include <States/GameState.h>
 #include <States/LevelCreatorState.h>
 
-
-void GameWonState::init(GameEngine* gameEngine){
+void GameWonState::init(GameEngine* gameEngine) {
     renderer = gameEngine->renderer;
 
     SDL_SetWindowPosition(gameEngine->window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
@@ -18,74 +17,64 @@ void GameWonState::init(GameEngine* gameEngine){
 
     pointerRect.w = 32;
     pointerRect.h = 32;
-
 }
 
-void GameWonState::destroy(){
+void GameWonState::destroy() {
     SDL_DestroyTexture(gamescreen);
     SDL_DestroyTexture(pointer);
 }
 
-void GameWonState::pause(){
+void GameWonState::pause() {}
 
-}
+void GameWonState::resume() {}
 
-void GameWonState::resume(){
-
-}
-
-void GameWonState::handleInput(GameEngine* gameEngine){
+void GameWonState::handleInput(GameEngine* gameEngine) {
     SDL_Event e;
-    while(SDL_PollEvent(&e)){
-        if(e.quit.type == SDL_QUIT){
-                gameEngine->quit();
+    while(SDL_PollEvent(&e)) {
+        if(e.quit.type == SDL_QUIT) {
+            gameEngine->quit();
         }
 
-        if(e.key.type == SDL_KEYUP){
-            switch(e.key.keysym.sym){
-            case SDLK_w:
-                if(pointerPos>0) pointerPos--;
-                break;
+        if(e.key.type == SDL_KEYUP) {
+            switch(e.key.keysym.sym) {
+                case SDLK_w:
+                    if(pointerPos > 0) pointerPos--;
+                    break;
 
-            case SDLK_s:
-                if(pointerPos<3) pointerPos++;
-                break;
+                case SDLK_s:
+                    if(pointerPos < 3) pointerPos++;
+                    break;
 
-            case SDLK_SPACE:
-            case SDLK_RETURN:
+                case SDLK_SPACE:
+                case SDLK_RETURN:
 
-                if(pointerPos == 0){
-                        //save the replay
+                    if(pointerPos == 0) {
+                        // save the replay
                         GameState::getInstance()->saveReplay();
                         gameEngine->changeState(MainMenuState::getInstance());
-                }
-                else if(pointerPos == 1){
-                    gameEngine->changeState(MainMenuState::getInstance());
-                }else if(pointerPos == 2){
-                    gameEngine->quit();
-                }
+                    } else if(pointerPos == 1) {
+                        gameEngine->changeState(MainMenuState::getInstance());
+                    } else if(pointerPos == 2) {
+                        gameEngine->quit();
+                    }
 
-
-                break;
+                    break;
             }
         }
     }
 }
 
-void GameWonState::update(GameEngine* gameEngine){
-
-      if(pointerPos == 0){
+void GameWonState::update(GameEngine* gameEngine) {
+    if(pointerPos == 0) {
         pointerRect.y = 430;
-    }else if(pointerPos == 1){
+    } else if(pointerPos == 1) {
         pointerRect.y = 490;
-    }else if(pointerPos == 2){
+    } else if(pointerPos == 2) {
         pointerRect.y = 550;
     }
-
 }
 
-
-void GameWonState::render(GameEngine* gameEngine){
+void GameWonState::render(GameEngine* gameEngine) {
     SDL_RenderClear(gameEngine->renderer);
 
     SDL_RenderCopy(renderer, gamescreen, NULL, NULL);

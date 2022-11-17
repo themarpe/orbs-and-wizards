@@ -2,14 +2,13 @@
 #define IMAGE_H_INCLUDED
 
 #include <SDL.h>
-#include <string>
 #include <SDL_image.h>
 
-class Image
-{
-public:
-    static SDL_Texture* loadImage( SDL_Renderer* , std::string );
+#include <string>
+
+class Image {
+   public:
+    static SDL_Texture* loadImage(SDL_Renderer*, std::string);
 };
 
-
-#endif // IMAGE_H_INCLUDED
+#endif  // IMAGE_H_INCLUDED

@@ -3,9 +3,8 @@
 #include <SDL.h>
 #include <State.h>
 
-class LevelCreatorSelector : public State{
-
-public:
+class LevelCreatorSelector : public State {
+   public:
     void init(GameEngine* gameEngine);
     void destroy();
     void pause();
@@ -14,15 +13,14 @@ public:
     void update(GameEngine* game);
     void render(GameEngine* game);
 
-    static LevelCreatorSelector* getInstance(){
+    static LevelCreatorSelector* getInstance() {
         static LevelCreatorSelector instance;
         return &instance;
     }
 
-protected:
-private:
+   protected:
+   private:
     SDL_Renderer* renderer;
-
 
     TTF_Font* returnFont;
     SDL_Color whiteColor;
@@ -45,17 +43,14 @@ private:
 
     SDL_Texture* backgrounds[6];
     std::string backgroundParentPath = "Assets/Backgrounds/";
-    std::string backgroundFiles[6] = {
-        "back_cave.png",
-        "back_cave_inverted.png",
-        "bubble_background_blue.png",
-        "bubble_background_green.png",
-        "bubble_background_pink.png",
-        "bubble_background_red.png"
-    };
+    std::string backgroundFiles[6] = {"back_cave.png",
+                                      "back_cave_inverted.png",
+                                      "bubble_background_blue.png",
+                                      "bubble_background_green.png",
+                                      "bubble_background_pink.png",
+                                      "bubble_background_red.png"};
 
     LevelCreatorSelector() {}
     LevelCreatorSelector(LevelCreatorSelector const&);
     void operator=(LevelCreatorSelector const&);
-
 };

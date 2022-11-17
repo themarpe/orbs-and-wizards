@@ -1,17 +1,16 @@
-#pragma once //HEADERGUARD
+#pragma once  // HEADERGUARD
 
+#include <GameEngine.h>
+
+#include <iostream>
 
 #include "SDL.h"
-#include <iostream>
-#include <GameEngine.h>
 
 class Game;
 class Camera;
 
-class Entity
-{
-
-protected:
+class Entity {
+   protected:
     Game* game_p;
     float x, y, w, h;
     int currentSprite;
@@ -19,7 +18,8 @@ protected:
     SDL_Rect collisionRect;
     bool alive;
     std::string spriteSheetKey;
-public:
+
+   public:
     Entity();
     Entity(Game* g, std::string key, float x, float y, float w, float h);
     virtual ~Entity();
@@ -40,8 +40,4 @@ public:
 
     SDL_Rect* getRenderRect();
     SDL_Rect* getCollisionRect();
-
-
-
 };
-

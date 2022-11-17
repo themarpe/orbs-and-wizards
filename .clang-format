@@ -11,4 +11,4 @@ BinPackParameters: false
 AllowShortFunctionsOnASingleLine: Empty
 IndentWidth: 4
 ColumnLimit: 160
-AllowShortIfStatementsOnASingleLine: WithoutElse
+AllowShortIfStatementsOnASingleLine: AllIfsAndElse

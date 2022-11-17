@@ -1,20 +1,20 @@
-#pragma once //HEADERGUARD
+#pragma once  // HEADERGUARD
 
-#include <vector>
-#include <map>
-#include <SDL.h>
-#include <SDL_ttf.h>
-#include <string>
-#include <SDL_image.h>
-#include "Image.h"
 #include <Enums.h>
-#include <ctime>
-#include <fstream>
-#include <stack>
-#include <queue>
-
+#include <SDL.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
 #include <SpriteSheet.h>
 
+#include <ctime>
+#include <fstream>
+#include <map>
+#include <queue>
+#include <stack>
+#include <string>
+#include <vector>
+
+#include "Image.h"
 
 class Level;
 
@@ -26,71 +26,66 @@ class Entity;
 class UI;
 class GameEngine;
 
-struct ReplayStruct{
+struct ReplayStruct {
     long long frameNumber;
     std::vector<InputCommands> inputCommands;
 };
 
+class Game {
+   public:
+    enum class TypeOfGame { PLAYABLE, REPLAY };
 
-class Game
-{
-    public:
+    Game(GameEngine*);
+    Game(GameEngine*, std::string replayFile);
+    ~Game();
 
-        enum class TypeOfGame {PLAYABLE, REPLAY};
+    UI* ui;
+    Camera* camera;
+    Level* level;
+    Player* p1;
+    void run();
 
-        Game(GameEngine*);
-        Game(GameEngine*, std::string replayFile);
-        ~Game();
+    void addEntity(Entity* entity);
 
-        UI* ui;
-        Camera* camera;
-        Level* level;
-        Player* p1;
-        void run();
+    void nextLevel();
+    void loadNextLevel();
+    void gameOver();
 
-        void addEntity(Entity* entity);
+    void saveReplay();
 
-        void nextLevel();
-        void loadNextLevel();
-        void gameOver();
+    // STATICS
 
-        void saveReplay();
+    static bool checkBoxCollision(SDL_Rect*, SDL_Rect*);
 
-        //STATICS
+    static std::map<std::string, SpriteSheet> SPRITESHEET;
 
-        static bool checkBoxCollision(SDL_Rect*, SDL_Rect*);
+    std::vector<Entity*> entities;
+    SDL_Renderer* renderer;
+    SDL_Window* window;
 
-        static std::map<std::string, SpriteSheet> SPRITESHEET;
+    GameEngine* gameEngine;
 
-        std::vector<Entity*> entities;
-        SDL_Renderer* renderer;
-        SDL_Window* window;
+    int screenWidth, screenHeight;
 
-        GameEngine* gameEngine;
+    std::string levelPath;
 
-        int screenWidth, screenHeight;
+    void handleInput();
+    void update();
+    void render();
 
-        std::string levelPath;
+   protected:
+   private:
+    TypeOfGame typeOfGame;
+    std::ifstream replayInputStream;
+    std::ofstream replayOutputStream;
 
-        void handleInput();
-        void update();
-        void render();
+    std::queue<ReplayStruct> replayCache;
 
-    protected:
-    private:
+    long long frameCounter = 0;
 
-        TypeOfGame typeOfGame;
-        std::ifstream replayInputStream;
-        std::ofstream replayOutputStream;
+    bool nextLevelBool = 0;
 
-        std::queue<ReplayStruct> replayCache;
+    std::stack<Entity*> entitiesToAdd;
 
-        long long frameCounter = 0;
-
-        bool nextLevelBool = 0;
-
-        std::stack<Entity*> entitiesToAdd;
-
-        bool running;
-
+    bool running;
 };

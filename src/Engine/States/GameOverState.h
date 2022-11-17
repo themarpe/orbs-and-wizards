@@ -1,12 +1,11 @@
 #pragma once
 
+#include <MainMenuState.h>
 #include <SDL.h>
 #include <State.h>
-#include <MainMenuState.h>
 
-class GameOverState : public State{
-
-public:
+class GameOverState : public State {
+   public:
     void init(GameEngine* gameEngine);
     void destroy();
     void pause();
@@ -15,13 +14,13 @@ public:
     void update(GameEngine* game);
     void render(GameEngine* game);
 
-    static GameOverState* getInstance(){
+    static GameOverState* getInstance() {
         static GameOverState instance;
         return &instance;
     }
 
-protected:
-private:
+   protected:
+   private:
     SDL_Renderer* renderer;
 
     SDL_Texture* gamescreen;
@@ -34,5 +33,4 @@ private:
     GameOverState() {}
     GameOverState(GameOverState const&);
     void operator=(GameOverState const&);
-
 };

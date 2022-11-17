@@ -2,33 +2,30 @@
 #define MANA_H
 
 #include <Entity.h>
-
-#include <Vector2D.h>
 #include <Enums.h>
 #include <Level.h>
+#include <Vector2D.h>
 
-class Potion : public Entity
-{
-    public:
-        Potion(Game* g, float x, float y, float w, float h, PotionType p);
-        Potion(){};
-        ~Potion();
+class Potion : public Entity {
+   public:
+    Potion(Game* g, float x, float y, float w, float h, PotionType p);
+    Potion(){};
+    ~Potion();
 
-        void checkCollision(Level* level);
-        void checkPlayerCollision();
+    void checkCollision(Level* level);
+    void checkPlayerCollision();
 
-        void update();
-        void render(Camera*);
+    void update();
+    void render(Camera*);
 
-    protected:
-
+   protected:
     PotionType potionType;
     Vector2D dir, accel;
 
     uint32_t time;
     uint32_t timeDropped;
 
-    private:
+   private:
 };
 
-#endif // MANA_H
+#endif  // MANA_H

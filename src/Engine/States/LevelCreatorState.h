@@ -1,17 +1,14 @@
 #pragma once
 
-#include <SDL.h>
-#include <State.h>
-
-#include <States/MainMenuState.h>
 #include <Camera.h>
 #include <LevelCreator.h>
-
+#include <SDL.h>
+#include <State.h>
+#include <States/MainMenuState.h>
 #include <Vector2D.h>
 
-class LevelCreatorState : public State{
-
-public:
+class LevelCreatorState : public State {
+   public:
     void init(GameEngine* gameEngine);
     void destroy();
     void pause();
@@ -20,15 +17,15 @@ public:
     void update(GameEngine* game);
     void render(GameEngine* game);
 
-    static LevelCreatorState* getInstance(){
+    static LevelCreatorState* getInstance() {
         static LevelCreatorState instance;
         return &instance;
     }
 
     std::string backgroundPath;
 
-protected:
-private:
+   protected:
+   private:
     LevelCreatorState() {}
     LevelCreatorState(LevelCreatorState const&);
     void operator=(LevelCreatorState const&);
@@ -48,18 +45,14 @@ private:
     bool mouseButtonRightUp = true;
     bool mouseButtonMiddleUp = true;
 
-
     int screen1Width, screen1Height;
     int screen2Width, screen2Height;
 
-
     int win1x, win1y;
-
 
     SDL_Window* window2;
     SDL_Renderer* renderer2;
     int win2x, win2y;
-
 
     SDL_Rect tilesetrend1Rect;
 
@@ -112,6 +105,4 @@ private:
 
     Vector2D dragClicked;
     Vector2D cameraClicked;
-
-
 };
